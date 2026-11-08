@@ -19,11 +19,14 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: clamp(1.75rem, 5vw, 3rem);
 }
+/* clamp ტესტი:
+მინიმალური ზომა სიგანის 560px,რადგან 5vw=28px
+მაქსიმალური სიგანე 960px,რადგან აქ 5vw=48px */
 
 h2 {
-    font-size: 1.75rem;
+    font-size: 2rem;
 }
 
 h3 {
@@ -39,6 +42,7 @@ p {
     background-color: #8b1e2d;
     color: white;
     padding: 20px;
+    width: 100%;
     text-align: center;
     position: sticky;
     /* top: 0;  აქ გაქრობის მერე ააღარ მიყვება ჰედერი*/
@@ -56,10 +60,11 @@ p {
 .navigation ul {
     list-style: none;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    /* gap: 30px; */
+    gap: 0.5rem;
 }
 
 .navigation li {
@@ -71,6 +76,9 @@ p {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
 }
 
 .navigation a:hover {
@@ -121,33 +129,37 @@ main {
 }
 
 .tour-button {
-    font-size: 2rem;
+    font-size: max(1rem, 1.1vw);
     padding: 0.6em 1.2em;
 }
 
 .tours {
     margin: 2.5rem auto;
     text-align: center;
+    padding: clamp(1rem, 4vw, 3rem);
 }
 
 .tour-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
     flex-direction: row;
     justify-content: space-between;
-    width: 90%;
+    width: min(100% - 2rem, 1100px);
     max-width: 1100px;
     margin: 0 auto;
     align-items: stretch;
-    gap: 30px;
+    /* gap: 30px; */
     flex-wrap: wrap;
     padding: 20px;
 }
 
 .tour-card1 {
     background-color: white;
-    width: 280px;
+    width: 100%;
+    max-width: 350px;
     min-height: 250px;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem;
     margin: 0.625rem;
     border: 2px solid #d6c5aa;
     border-radius: 12px;
@@ -164,9 +176,10 @@ main {
 
 .tour-card2 {
     background-color: white;
-    width: 280px;
+    width: 100%;
+    max-width: 350px;
     min-height: 250px;
-    padding: 20px 25px 20px;
+    padding: 1.25rem;
     margin: 10px;
     border: 2px solid #d6c5aa;
     border-radius: 12px;
@@ -182,9 +195,10 @@ main {
 
 .tour-card3 {
     background-color: white;
-    width: 280px;
+    width: 100%;
+    max-width: 350px;
     min-height: 250px;
-    padding: 20px 25px 20px;
+    padding: 1.25rem;
     margin: 10px;
     border: 2px solid #d6c5aa;
     border-radius: 12px;
@@ -221,17 +235,17 @@ main {
 
 
 .tour-button {
-    width: 160px;
+    width: 100%;
+    max-width: 200px;
     font-size: 1rem;
     height: 42px;
     display: inline-block;
     background-color: #8b1e2d;
     color: white;
     text-decoration: none;
-    padding: 0.6em 1.2em;
+    padding: 0.75em 1rem;
     margin-top: 10px;
     border-radius: 6px;
-
 }
 
 .why-us {
@@ -262,6 +276,8 @@ footer {
     text-align: center;
     padding: 1.875rem 1.25rem;
     margin-top: 2.5rem;
+    /* width: 100vw; ჰორიზონტალური scroll-bar გაჩნდა*/
+    /* width: 100%; აქ არ ჩნდება სქროლი */
 }
 
 .site-socials {
@@ -282,9 +298,10 @@ footer {
 }
 
 .site-socials img {
-    width: 40px;
+    width: 100%;
     height: 40px;
-    object-fit: contain;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
 }
 
 .header {
@@ -317,11 +334,13 @@ footer {
 }
 
 .container1, .container2, .container3 {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 25px;
+    /* gap: 25px; */
 }
 
 .container1 p, 
@@ -340,11 +359,14 @@ footer {
 }
 
 .image {
+    /* width: 600px; სურათი გადმოდის საზღვრებიდან */
     width: 50vw;
-    height: 30vh;
+    height: auto;
+    display: block;
     flex: 40%;
     object-fit: cover;
     border-radius: 10px;
+    max-width: 100%;
 }
 
 html {
@@ -463,4 +485,43 @@ html {
     background: rgba(117, 12, 12, 0.493);
 
     border-radius: 10px;
+}
+
+/* meta თეგის გაქრობის შემდგომ გამოწვეული ხატვეზები 375px ეკრანზე:
+1. 30 gap-მა გამოიწვია დიდი გადაცდომები ჰორიზონტალურად.
+
+2. ტურების ქარდები არის დიდი ზომის შესაბამისად ვერ განლაგდება სწორად.
+
+3. .stack-ის შემთხვევაში იქმნება ჰორიზონტალური scroll-bar
+
+4. სურათები არ ლაგდება ტექსტთან ერთად და content-ს მთლიანად სცდება.
+
+5. ტექსტის ზომები ძალიან იზრდება.*/
+
+
+/* Tablet - 768px */
+@media (min-width: 760px) {
+    .tour-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .site-container {
+        grid-template-columns: 3fr, 2fr;
+    }
+
+    .navigation {
+        flex-direction: row;
+    }
+}
+
+/* Desktop - 1024px */
+
+@media (min-width: 1024px) {
+    .tour-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .site-container {
+        padding: 3rem;
+    }
 }
